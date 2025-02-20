@@ -9,22 +9,24 @@ interface SelectProps extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>
   options: SelectOption[];
   label?: string;
   error?: string;
+  value?: string;
   onChange: (value: string) => void;
+  placeholder?: string; 
 }
 
 const Select: React.FC<SelectProps> = ({
   options,
   label,
   error,
-  value,
+  value = '',
   onChange,
   className = '',
   id,
-  placeholder,
+  placeholder = '',
   ...props
 }) => {
   const selectId = id || `select-${Math.random().toString(36).substr(2, 9)}`;
-  
+
   return (
     <div className="mb-4 w-full">
       {label && (
@@ -41,11 +43,11 @@ const Select: React.FC<SelectProps> = ({
         } ${className}`}
         {...props}
       >
-        {placeholder && (
+        {placeholder && placeholder.trim() !== '' ? (
           <option value="" disabled>
             {placeholder}
           </option>
-        )}
+        ) : null}
         {options.map((option) => (
           <option key={option.value} value={option.value}>
             {option.label}
